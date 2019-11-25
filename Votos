@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
+
+def es_bisiesto(anio):
+    #Formato anio: sólo números.
+    #Divisible por 400 o 100 es cambio de siglo.
+    #Si es divisible por 4 es año bisiesto siempre que no sea divisible por 100.
+    if (anio%400==0) or (anio%4==0 and anio%100!=0):
+        bisiesto=True
+    else:
+        bisiesto=False
+    return bisiesto
+
+def cant_dias_mes(mes,anio):
+    #Se introducen mes y año.
+    #Formato mes: sin cero adelante. Sólo números.
+    #Formato anio: cuatro dígitos. Sólo números.
+    #Esta función devolverá la cantidad de días correspondiente al mes introducido manualmente.
+    cant_dias=0
+    if mes==1 or mes==3 or mes==5 or mes==7 or mes==8 or mes==10 or mes==12:
+        cant_dias=31
+    elif mes==4 or mes==6 or mes==9 or mes==11:
+        cant_dias=30
+    elif mes==2:
+        bisiesto = es_bisiesto(anio)
+        if bisiesto==True:
+            cant_dias=29
+        else:
+            cant_dias=28
+    else:
+        cant_dias=False
+    return cant_dias
+
+def fecha_valida(dia,mes,anio):
+    #Dados los parámetros, devolverá un resultado booleano que indicará si es válida o no.
+    if mes<1 or mes>12: #meses inválidos
+        fecha=False
+    elif mes>1 or mes<12: #meses válidos
+        dia_valido = cant_dias_mes(dia,mes)
+        if dia_valido==False:
+            fecha=False
+        else:
+            fecha=True
+    return fecha
+
+
+def main():
+  '''Este sistema permite al encargado ingresar datos de telegramas de votos emitidos en la escuela. Ingresará fecha, datos de la escuela y los datos de cada telegrama.'''
+
+  print "Recuento de votos\n"
+
+  ing_dia = input("Ingrese día: ")
+  ing_mes = input("Ingrese mes: ")
+  ing_anio = input("Ingrese año: ")
+
+  validar_fecha = fecha_valida (ing_dia,ing_mes,ing_anio)
+  
+  while validar_fecha != True:
+    ing_dia = input("Error. Reingrese día: ")
+    ing_mes = input("Error. Reingrese mes: ")
+    ing_anio = input("Error. Reingrese año: ")
+
+    validar_fecha = fecha_valida (ing_dia,ing_mes,ing_anio)
+
+  if validar_fecha == True:
+    break
+
+main()
